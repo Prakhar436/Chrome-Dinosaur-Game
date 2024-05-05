@@ -1,0 +1,432 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+
+}
+
+/* ----------------------------------Inside Game Window:----------------------------------------- */
+
+:root {
+    --brightnessVal: 1;
+}
+
+@font-face {
+    font-family: pixel;
+    src: url(fonts/pixel2.TTF);
+
+}
+
+.container {
+    overflow: hidden;
+    display: flex;
+    position: absolute;
+    height: 40vh;
+    width: 95%;
+    z-index: -5;
+    top: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+.start-screen {
+    --inversion: calc(1 - var(--brightnessVal));
+    opacity: 0;
+    position: absolute;
+    font-size: 5vmin;
+    font-family: pixel;
+    word-spacing: 5px;
+    top: 50%;
+    left: 50%;
+    filter: invert(var(--inversion));
+    transform: translate(-50%, -50%);
+    animation: appear 0.5s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes appear {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.moon-stars {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: url("stars.png"), radial-gradient(circle at 200px 200px, rgb(236, 237, 237) 1%, rgba(197, 199, 199, 0.8) 1%, rgba(153, 154, 154, 0.5) 2%, transparent 3%);
+    background-size: contain;
+    opacity: 0;
+    /* Initially, stars are hidden */
+    /* will-change: background-image; */
+}
+
+.score {
+    --inversion: calc(1 - var(--brightnessVal));
+    position: absolute;
+    font-size: 3vmin;
+    text-align: right;
+    right: 1vmin;
+    top: 1vmin;
+    font-family: pixel;
+    filter: invert(var(--inversion));
+
+}
+
+img {
+    position: absolute;
+    bottom: 0;
+}
+
+.abox {
+    position: absolute;
+    width: 120px;
+    height: 1px;
+    background-color: rgb(54, 80, 80);
+    left: 180px;
+    bottom: 34.5%;
+    z-index: 1000;
+}
+
+.dino {
+    /* background-color: red; */
+    position: absolute;
+    height: 104px;
+    width: 108px;
+    bottom: 15px;
+    left: 12.5%;
+    transform: translateY(0);
+    will-change: transform;
+}
+
+.dinoImg {
+    height: 100%;
+    width: 100%;
+    filter: brightness(var(--brightnessVal));
+}
+
+.dinoTracker1 {
+    position: absolute;
+    /* background-color: blueviolet; */
+    opacity: 0.5;
+    bottom: 8%;
+    height: 15%;
+    width: 75%;
+    left: 0%;
+}
+
+.dinoTracker2 {
+    position: absolute;
+    /* background-color: rgb(43, 186, 226); */
+    opacity: 0.5;
+    top: 5%;
+    height: 18%;
+    width: 37%;
+    right: 2%;
+}
+
+
+.ground {
+    position: absolute;
+    --left: 0;
+    width: 300%;
+    height: 179.1px;
+    left: calc(var(--left)*1%);
+    filter: brightness(var(--brightnessVal));
+    will-change: left, filter;
+
+}
+
+#ground2 {
+    position: absolute;
+    filter: brightness(var(--brightnessVal));
+    will-change: left, filter;
+
+}
+
+.cactusContainer {
+    --bottom: 15px;
+    --right: -5;
+    position: absolute;
+    width: 100px;
+    height: 89px;
+    /* display: flex; */
+    bottom: 15px;
+    right: calc(var(--right)*1%);
+    /* background-color: red; */
+}
+
+.cactus {
+    /* position: absolute; */
+    height: 100%;
+    width: 100%;
+    filter: brightness(var(--brightnessVal));
+
+}
+
+/* cactus trackers for cactus1: */
+.cactus1Tracker1 {
+    position: absolute;
+    /* background-color: blueviolet; */
+    opacity: 5;
+    top: 59%;
+    height: 15%;
+    width: 38%;
+    left: 30%;
+}
+
+.cactus1Tracker2 {
+    position: absolute;
+    /* background-color: rgb(43, 186, 226); */
+    opacity: 5;
+    top: 7%;
+    height: 35%;
+    width: 15%;
+    left: 44%;
+}
+
+/* cactus trackers for cactus2: */
+.cactus2Tracker1 {
+    position: absolute;
+    /* background-color: blueviolet; */
+    height: 15%;
+    opacity: 0.5;
+    top: 49%;
+    width: 20%;
+    left: 23%;
+}
+
+.cactus2Tracker2 {
+    position: absolute;
+    /* background-color: rgb(43, 186, 226); */
+    height: 35%;
+    opacity: 0.5;
+    top: 7%;
+    width: 21%;
+    left: 46%;
+}
+
+.cactus2Tracker3 {
+    position: absolute;
+    /* background-color: rgb(2, 0, 0); */
+    height: 15%;
+    opacity: 0.5;
+    top: 33%;
+    width: 10%;
+    left: 76%;
+}
+
+
+.mount {
+    /*for the big mountain at the start*/
+    bottom: 15px;
+    z-index: -1;
+    --right: 50;
+    right: calc(var(--right)*1%);
+    ;
+    opacity: 1;
+    height: 50%;
+    filter: brightness(var(--brightnessVal));
+
+    /* transform: scale(0.8); */
+}
+
+.newMount {
+    /* for the dynamically created mountains*/
+    --right: -20;
+    bottom: 15px;
+    z-index: -1;
+    right: calc(var(--right)*1%);
+    filter: brightness(var(--brightnessVal));
+
+}
+
+
+/* ---------------------------------Media Queries for Game Window---------------------------------- */
+
+
+@media (orientation: portrait) {
+
+    /* for avg. sized mobiles */
+    .container {
+        height: 30vh;
+    }
+
+    .cactusContainer {
+        --right: -15;
+    }
+
+    .newMount {
+        --right: -50;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 850px) {
+
+    /* for small sized mobiles*/
+    .container {
+        height: 35vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .dino {
+        width: 90px;
+        height: 84px;
+    }
+
+    .cactusContainer {
+        width: 82px;
+        height: 71px;
+    }
+}
+
+/* ----------------------------------Outside Game Window Stuff:----------------------------------------- */
+
+.prompt {
+    font-family: "Roboto Slab", serif;
+    top: 45vh;
+    position: relative;
+    font-size: 2.6em;
+    font-weight: bolder;
+    padding-left: 4vw;
+    padding-top: 1.5vh;
+    letter-spacing: 3px;
+    word-spacing: 10px;
+    /* font-stretch: ultra-expanded; */
+}
+
+.prompt .space {
+    display: inline-block;
+    /* by default '.space' is inline (because it's inside <span>) so transform property won't work, that's why we set the display to inline-block */
+    font-family: "Bungee Spice", sans-serif;
+    font-size: 3rem;
+    padding: 5px 20px;
+    user-select: none;
+    transition: all 0.1s ease-in-out;
+    text-shadow:
+        1px 1px 0 rgb(255, 220, 114),
+        2px 1px 0 rgb(253, 129, 129),
+        3px 2px 0 rgb(253, 129, 129),
+        4px 3px 0 rgb(253, 129, 129),
+        5px 4px 0 rgb(253, 129, 129),
+        6px 5px 0 rgb(253, 129, 129),
+        9px 9px 2px rgba(145, 140, 140, 0.77);
+}
+
+.prompt .pressed {
+
+    animation: buttonPress 0.5s forwards;
+}
+
+@keyframes buttonPress {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(3px, 1px);
+        /* shift the text downwards */
+        text-shadow:
+            1px 1px 0 rgb(255, 220, 114),
+            2px 1px 0 rgb(253, 129, 129),
+            3px 2px 0 rgb(253, 129, 129),
+            4px 3px 2px rgba(145, 140, 140, 0.77);
+    }
+
+    100% {
+        transform: translate(0, 0);
+        text-shadow:
+            1px 1px 0 rgb(255, 220, 114),
+            2px 1px 0 rgb(253, 129, 129),
+            3px 2px 0 rgb(253, 129, 129),
+            4px 3px 0 rgb(253, 129, 129),
+            5px 4px 0 rgb(253, 129, 129),
+            6px 5px 0 rgb(253, 129, 129),
+            9px 9px 2px rgba(145, 140, 140, 0.77);
+    }
+}
+
+.prompt .animatedText {
+    display: inline-block;
+    /* by default '.space' is inline (because it's inside <span>) so transform property won't work, that's why we set the display to inline-block */
+    padding: 5px 20px;
+    width: 30px;
+    height: 10vh;
+    /* position: absolute; */
+}
+
+.animatedText .start {
+    position: absolute;
+    transition: all 0.5s;
+    opacity: 1;
+}
+
+.animatedText .jump {
+    opacity: 0;
+    transition: opacity 0.3s;
+    transform: translate3d(0, -50px, 0);
+    transition: all 0.5s;
+    position: absolute;
+
+}
+
+.animatedText .restart {
+    display: inline-block;
+    transform: translate3d(0, 50px, 0);
+    transition: all 0.5s;
+    /* position: absolute; */
+    opacity: 0;
+}
+
+
+
+/* ----------------------------------Media Queries:----------------------------------------- */
+
+@media screen and (orientation: portrait) {
+
+    /* for avg. sized mobiles */
+    .prompt {
+        top: 35vh;
+        font-size: 1.8em;
+        letter-spacing: 0.3px;
+        word-spacing: 1px;
+    }
+
+    .prompt .space {
+        font-size: 1.8rem;
+    }
+
+    .prompt .animatedText {
+        padding: 5px 5px;
+    }
+}
+
+@media (orientation: portrait) and (max-height: 850px) {
+
+    /* for small sized mobiles*/
+    .prompt {
+        top: 40vh;
+        font-size: 1.5em;
+    }
+
+    .prompt .space {
+        font-size: 1.5rem;
+    }
+
+    .prompt .animatedText {
+        padding: 5px 5px;
+    }
+}

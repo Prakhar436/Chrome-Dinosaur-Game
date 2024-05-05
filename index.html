@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Dinosaur Game Remake</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+    <script src="script.js" type="module"></script>
+</head>
+
+<body>
+    <div class="container" id="world">
+        <div class="moon-stars" id="moonLayer"></div>
+        <div class="score">
+            <div data-hiscore>Hi: 0</div>
+        </div>
+        <div class="dino" id="dino">
+            <img src="assets/dino/YellowDino.png" class="dinoImg" id="dinoImg" alt="">
+            <div class="dinoTracker1" data-dinoTracker=true></div>
+            <div class="dinoTracker2" data-dinoTracker=true></div>
+        </div>
+        <img src="assets/ground/ground.png" alt="" class="ground" id="ground1">
+        <img src="assets/ground/ground.png" alt="" class="ground" id="ground2">
+        <img src="assets/background/mount1.png" data-hill="true" style="height: initial;" class="mount" id="mount"
+            alt="">
+    </div>
+
+    <div class="prompt">
+        Press <span class="space">Space</span> to 
+        <span class="animatedText">
+            <span class="start">Start</span>
+            <span class="jump">Jump</span>
+            <span class="restart">Restart</span>
+        </span>
+    </div>
+
+</body>
+
+</html>
