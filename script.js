@@ -4,7 +4,7 @@ import { setUpDino, dinoRun, getDinoRect, setDinoStop } from "./dino.js";
 import { setUpCactus, cactusMove, getCactusRects } from "./cactus.js";
 import { setUpGround } from "./ground.js";
 import { setUpHill, hillMove } from "./background.js";
-import { bgMusic } from "./audio.js";
+import { audioLoaded, bgMusic } from "./audio.js";
 import { switchText, animateSpaceTxt } from "./interface.js";
 // console.log(getComputedStyle(document.querySelector(".ground")).getPropertyValue("height"));
 
@@ -27,8 +27,13 @@ let isSpacePressed = (event) => {
         gameStart();
     }
 }
-
+// use the promise from audio.js to check if audio is loaded, before adding the event listener
+audioLoaded.then(() => { 
+    document.querySelector('.loaderBody').style.display = "none";
 document.addEventListener('keydown',isSpacePressed);
+}).catch((err) => {
+    console.error(err);
+});
 
 let lastTime;
 function update(time) {

@@ -7,6 +7,64 @@
 
 }
 
+/* ----------------------------------Page Loader:----------------------------------------- */
+/* HTML: <div class="loader"></div> */
+
+.loaderBody {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    /* background-color: #2f256d; */
+    overflow: hidden;
+    z-index: 1;
+    background: linear-gradient(0deg, rgb(167, 178, 183), skyblue);
+}
+
+.loaderBody .text{
+    text-transform: uppercase;
+    margin: 10px;
+    font-size: 20px;
+    font-family: "Roboto Slab", serif;
+    color: #503704;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+    position: relative;
+    width: 50px;
+    aspect-ratio: 1;
+    display: grid;
+    border: 4px solid #0000;
+    border-radius: 50%;
+    border-right-color: #c08c24;
+    animation: l15 1s infinite linear;
+}
+
+.loader::before,
+.loader::after {
+    content: "";
+    grid-area: 1/1;
+    margin: 2px;
+    border: inherit;
+    border-radius: 50%;
+    animation: l15 2s infinite;
+}
+
+.loader::after {
+    margin: 8px;
+    animation-duration: 3s;
+}
+
+@keyframes l15 {
+    100% {
+        transform: rotate(1turn)
+    }
+}
+
 /* ----------------------------------Inside Game Window:----------------------------------------- */
 
 :root {
