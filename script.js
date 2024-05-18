@@ -28,7 +28,6 @@ let isSpacePressed = (event) => {
     }
 }
 // use the promise from audio.js to check if audio is loaded, before adding the event listener
-console.log(("script js directory",__dirname));
 audioLoaded.then(() => { 
     document.querySelector('.loaderBody').style.display = "none";
 document.addEventListener('keydown',isSpacePressed);
