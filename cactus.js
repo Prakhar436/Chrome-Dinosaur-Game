@@ -13,7 +13,7 @@ export function setUpCactus() {
     FORTY_PERCENT = screen.offsetWidth*0.4;  // we need the pixel value of 40% of the screen width, to check if cactus is in vicinity or not
     document.querySelectorAll("[data-cactus]").forEach( (cactus)=>{
         cactus.remove();
-        console.log("cactus removed", cactus)
+        // console.log("cactus removed", cactus)
     })
 }
 
@@ -23,7 +23,7 @@ export function cactusMove(delta, speedScale) {
         Style = Style + delta  * speedScale *SPEED_FACTOR;
         cactus.style.setProperty('--right',`${Style}`);
         if(Style>=100){
-            console.log(parseFloat(getComputedStyle(cactus).getPropertyValue("--right")), "whoops, ended");
+            // console.log(parseFloat(getComputedStyle(cactus).getPropertyValue("--right")), "whoops, ended");
             cactus.remove();
             }
     })

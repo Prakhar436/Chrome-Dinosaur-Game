@@ -8,10 +8,10 @@ export function switchText(id) {
         if(getComputedStyle(start).getPropertyValue("opacity")==1){
         start.style.transform = "translate3d(0,50px,0)"
         start.style.opacity = 0;
-        console.log("inside start if")
+        // console.log("inside start if")
         }
         else {
-            console.log("Welp, start is done for lol");
+            // console.log("Welp, start is done for lol");
             restart.style.transform = "translate3d(0,50px,0)"
             restart.style.opacity = 0;
         }
@@ -21,14 +21,14 @@ export function switchText(id) {
     else if(id==2){
         jump.style.transform = "translate3d(0,-50px,0)"
         jump.style.opacity = "0";
-        console.log("restart is coming from: ", getComputedStyle(restart).getPropertyValue("transform"));
+        // console.log("restart is coming from: ", getComputedStyle(restart).getPropertyValue("transform"));
         restart.style.transform = "translate3d(0,0,0)"
         restart.style.opacity = "1";
     } 
 }
 
 spaceButton3d.addEventListener("animationend", ()=>{
-    console.log("animation has ended");
+    // console.log("animation has ended");
     spaceButton3d.classList.remove("pressed");
 });
 

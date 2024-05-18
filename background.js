@@ -12,13 +12,13 @@ export function setUpHill() {
         hill.remove();
     });
     if(document.getElementById('mount')==null){
-        console.log('reached here, creating element')
+        // console.log('reached here, creating element')
         const mount =  document.createElement("img");
         mount.dataset.hill = true;
         
         mount.src = 'assets/background/mount4.png';
         mount.classList.add('mount');
-        console.log("created element: ", mount);
+        // console.log("created element: ", mount);
     }
 }
 
