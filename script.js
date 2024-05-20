@@ -27,13 +27,39 @@ let isSpacePressed = (event) => {
         gameStart();
     }
 }
+//---------------preloader---------------
+
 // use the promise from audio.js to check if audio is loaded, before adding the event listener
-audioLoaded.then(() => { 
+//also load cactus images
+function preloadImage(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(url);
+        img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+        img.src = url;
+    });
+}
+const imageUrls = [
+    'assets/dino/YellowDino.png',
+    'assets/dino/YellowDinoRun-1.png',
+    'assets/dino/YellowDinoRun-0.png',
+    'assets/obstacles/cactus1.png',
+    'assets/obstacles/cactus2.png',
+    'assets/background/mount1.png',
+    'assets/background/mount2.png',
+    'assets/background/mount3.png'
+];
+
+const preloadPromises = imageUrls.map(preloadImage);
+preloadPromises.push(audioLoaded);
+Promise.all(preloadPromises).then(() => { 
     document.querySelector('.loaderBody').style.display = "none";
 document.addEventListener('keydown',isSpacePressed);
 }).catch((err) => {
     console.error(err);
 });
+
+// --------------------preloader END--------------------
 
 let lastTime;
 function update(time) {

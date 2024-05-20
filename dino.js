@@ -50,7 +50,7 @@ export function getDinoRect() {
 
 function run(delta, speedScale) {
     if (isJumping) {
-        console.log("ITS JUMPING TIME!!!")
+        // console.log("ITS JUMPING TIME!!!")
         dinoImg.onerror = function() {
             console.error('Noooooooooo Failed to load image at: ' + this.src);
         };
@@ -59,7 +59,7 @@ function run(delta, speedScale) {
     }
     if(currentFrameTime>=FRAMETIME){
         dinoFrame = (dinoFrame+1)%2;
-        console.log("ITS THE TIME TO CHANGE THE DINOFRAME ")
+        // console.log("ITS THE TIME TO CHANGE THE DINOFRAME ")
         dinoImg.src=`assets/dino/YellowDinoRun-${dinoFrame}.png`;
         dinoImg.onerror = function() {
             console.error('Noooooooooo Failed to load image at: ' + this.src);
