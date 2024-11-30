@@ -1,7 +1,20 @@
 import { dinoSFX } from "./audio.js";
 import { animateSpaceTxt } from "./interface.js";
 let dino = document.getElementById('dino');
-let dinoImg = document.getElementById('dinoImg');
+// let dinoImg = document.getElementById('dinoImg');
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const dinoImg = new Image();
+dinoImg.src = 'assets/dino/spritesheet.png'; // Update this to your spritesheet path
+dinoImg.onload = function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(dinoImg, 0, 0,spriteWidth, spriteHeight, 0 , 0, canvas.width, canvas.height);
+    console.log('dino loaded')
+}; 
+const spriteWidth = dinoImg.width/3; //width of one sprite = width of spriteSheet / no. of sprites in one row
+const spriteHeight = dinoImg.height; // height of one sprite = height of spriteSheet / no. of sprites in one column (there's only one column in this spritesheet)
+
 
 
 const JUMP_SPEED = window.innerWidth>=window.innerHeight? 0.90: 0.80;
@@ -54,13 +67,15 @@ function run(delta, speedScale) {
         dinoImg.onerror = function() {
             console.error('Noooooooooo Failed to load image at: ' + this.src);
         };
-        dinoImg.src=`assets/dino/YellowDino.png`;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(dinoImg, 0, 0,spriteWidth, spriteHeight, 0 , 0, canvas.width, canvas.height);
         return;
     }
     if(currentFrameTime>=FRAMETIME){
-        dinoFrame = (dinoFrame+1)%2;
+        dinoFrame = (dinoFrame%2)+1;
         // console.log("ITS THE TIME TO CHANGE THE DINOFRAME ")
-        dinoImg.src=`assets/dino/YellowDinoRun-${dinoFrame}.png`;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(dinoImg, dinoFrame*spriteWidth, 0,spriteWidth, spriteHeight, 0 , 0, canvas.width, canvas.height);
         dinoImg.onerror = function() {
             console.error('Noooooooooo Failed to load image at: ' + this.src);
         };
@@ -87,5 +102,6 @@ function jump(delta) {
 
 export function setDinoStop() {
     dinoSFX.stop.play(); 
-    dinoImg.src=`assets/dino/YellowDino.png`;   
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(dinoImg, 0, 0,spriteWidth, spriteHeight, 0 , 0, canvas.width, canvas.height);
 }
