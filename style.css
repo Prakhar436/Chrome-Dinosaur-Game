@@ -17,9 +17,9 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    position: absolute;
+    position: fixed;
     /* background-color: #2f256d; */
-    overflow: hidden;
+    overflow: hidden !important;
     z-index: 1;
     background: linear-gradient(0deg, rgb(167, 178, 183), skyblue);
 }
@@ -81,7 +81,7 @@
     overflow: hidden;
     display: flex;
     position: absolute;
-    height: 40vh;
+    height: 42vh;
     width: 95%;
     z-index: -5;
     top: 3%;
@@ -214,7 +214,7 @@ img {
 
 }
 
-.cactusContainer {
+.hurdleContainer {
     --bottom: 15px;
     --right: -5;
     position: absolute;
@@ -226,64 +226,18 @@ img {
     /* background-color: red; */
 }
 
-.cactus {
-    /* position: absolute; */
+.hurdle {
+    position: absolute; 
     height: 100%;
     width: 100%;
+    bottom: 0;
     filter: brightness(var(--brightnessVal));
 
 }
 
-/* cactus trackers for cactus1: */
-.cactus1Tracker1 {
+.hurdleTracker{
+    /* background-color: red; */
     position: absolute;
-    /* background-color: blueviolet; */
-    opacity: 5;
-    top: 59%;
-    height: 15%;
-    width: 38%;
-    left: 30%;
-}
-
-.cactus1Tracker2 {
-    position: absolute;
-    /* background-color: rgb(43, 186, 226); */
-    opacity: 5;
-    top: 7%;
-    height: 35%;
-    width: 15%;
-    left: 44%;
-}
-
-/* cactus trackers for cactus2: */
-.cactus2Tracker1 {
-    position: absolute;
-    /* background-color: blueviolet; */
-    height: 15%;
-    opacity: 0.5;
-    top: 49%;
-    width: 20%;
-    left: 23%;
-}
-
-.cactus2Tracker2 {
-    position: absolute;
-    /* background-color: rgb(43, 186, 226); */
-    height: 35%;
-    opacity: 0.5;
-    top: 7%;
-    width: 21%;
-    left: 46%;
-}
-
-.cactus2Tracker3 {
-    position: absolute;
-    /* background-color: rgb(2, 0, 0); */
-    height: 15%;
-    opacity: 0.5;
-    top: 33%;
-    width: 10%;
-    left: 76%;
 }
 
 
@@ -322,7 +276,7 @@ img {
         height: 30vh;
     }
 
-    .cactusContainer {
+    .hurdleContainer {
         --right: -15;
     }
 
@@ -345,7 +299,7 @@ img {
         height: 84px;
     }
 
-    .cactusContainer {
+    .hurdleContainer {
         width: 82px;
         height: 71px;
     }
@@ -353,10 +307,18 @@ img {
 
 /* ----------------------------------Outside Game Window Stuff:----------------------------------------- */
 
-.prompt {
-    font-family: "Roboto Slab", serif;
+.interface{
     top: 45vh;
     position: relative;
+
+}
+.interface img{ /*undo the position and bottom property applied on all imgs above*/
+    position: initial;
+    bottom: initial;
+}
+
+.prompt {
+    font-family: "Roboto Slab", serif;
     font-size: 2.6em;
     font-weight: bolder;
     padding-left: 4vw;
@@ -449,15 +411,134 @@ img {
     opacity: 0;
 }
 
+.settings h2{
+    display: flex;
+    /* justify-content: center; */
+    gap: 10px;
+    align-items: center;
+    font-family: "Roboto Slab", serif;
+    font-size: 2.6em;
+    font-weight: bolder;
+    padding-left: 4vw;
+    padding-top: 1.5vh;
+    letter-spacing: 2px;
+    word-spacing: 10px;
+    /* background-color: #c08c24; */
+}
+.accordion{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 4vw;
+    padding-top: 1.5vh;
+    padding-right: 4vw;
+    transition: filter 0.5s;
+}
+.accordion.disabled{
+    pointer-events: none;
+    filter: grayscale(1);
+}
 
+.accordionItem{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(162, 54, 8);
+    padding: 15px;
+    cursor: pointer;
+}
+.accordionItem > .accordionTitle{
+    font-family: "Roboto Slab", serif;
+    font-size: 1.8em;
+    letter-spacing: 1px;
+    word-spacing: 5px;
+
+}
+.accordionItem > .accordionTitle::after{
+    content: "\25BC"; /*unicode character for down arrow*/
+    float: right;
+    margin-right: 6px;
+    font-size: 25px;
+    transition: transform 0.5s;
+}
+.accordionItem.active > .accordionTitle::after{
+    transform: rotate(180deg);
+}
+
+
+.accordionItem > .accordionContent{
+    /* background-color: #503704; */
+    font-size: 18px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s cubic-bezier(0.865, 0.140, 0.095, 0.870);
+    cursor: initial;
+    color: white;
+}
+
+.stage_select .accordionContent, .dino_select .accordionContent{
+   display: flex;
+   /* flex-direction: row; */
+   gap: 20px;
+}
+.stage_select .accordionContent > div{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
+    width: 49%;
+    height: fit-content;
+    border: none;
+    cursor: pointer;
+ }
+ .stage_select .accordionContent > div:hover > img, .dino_select .accordionContent > div:hover > img{
+    outline: 5px solid rgb(19, 92, 237)
+ }
+ .stage_select  .accordionContent > div.selected > img, .dino_select .accordionContent > div.selected > img{
+    outline: 5px solid lime;
+ }
+ .stage_select  .accordionContent > div > img{
+    width: 100% !important;
+    /* height: 100%; */
+    cursor: pointer;
+ }
+ .stage_select  .accordionContent > div > div, .dino_select .accordionContent > div > div{
+    font-family: "Roboto Slab", serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+
+
+ .dino_select .accordionContent > div{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+    margin-left: 6px;
+    margin-right: 6px;
+    border: none;
+    cursor: pointer;
+ }
+ .dino_select .accordionContent > div > img{
+    height: 120px;
+    padding: 10px;
+    cursor: pointer;
+ }
 
 /* ----------------------------------Media Queries:----------------------------------------- */
 
 @media screen and (orientation: portrait) {
 
     /* for avg. sized mobiles */
-    .prompt {
+    .interface{
         top: 35vh;
+
+    }
+    .prompt {
         font-size: 1.8em;
         letter-spacing: 0.3px;
         word-spacing: 1px;
@@ -475,8 +556,10 @@ img {
 @media (orientation: portrait) and (max-height: 850px) {
 
     /* for small sized mobiles*/
-    .prompt {
+    .interface{
         top: 40vh;
+    }
+    .prompt {
         font-size: 1.5em;
     }
 

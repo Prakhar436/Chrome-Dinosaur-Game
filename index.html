@@ -16,7 +16,7 @@
         <div class="loader"></div>
         <div class="text">Loading Game Resources. Please Wait</div>
     </div>
-    
+
     <div class="container" id="world">
         <div class="moon-stars" id="moonLayer"></div>
         <div class="score">
@@ -27,19 +27,64 @@
             <div class="dinoTracker1" data-dinoTracker=true></div>
             <div class="dinoTracker2" data-dinoTracker=true></div>
         </div>
-        <img src="assets/ground/ground.png" alt="" class="ground" id="ground1">
-        <img src="assets/ground/ground.png" alt="" class="ground" id="ground2">
-        <img src="assets/background/mount1.png" data-hill="true" style="height: initial;" class="mount" id="mount"
-            alt="">
+        <img src="assets/stage/scorched_dunes/ground/ground.png" alt="" class="ground" id="ground1">
+        <img src="assets/stage/scorched_dunes/ground/ground.png" alt="" class="ground" id="ground2">
+        <img src="assets/stage/scorched_dunes/background/mount_1.png" data-hill="true" style="height: initial;"
+            class="mount" id="mount" alt="">
     </div>
+    <div class="interface">
+        <div class="prompt">
+            Press <span class="space">Space</span> to
+            <span class="animatedText">
+                <span class="start">Start</span>
+                <span class="jump">Jump</span>
+                <span class="restart">Restart</span>
+            </span>
+        </div>
+        <div class="settings">
+            <h2> <img src="UI/gear.svg" width="32px" height="32px" alt="">Settings</h2>
+            <div class="accordion">
+                <!-- <div class="accordionItem">
+                    <div class="accordionTitle">Difficulty</div>
+                    <div class="accordionContent">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime minus delectus tenetur quibusdam commodi hic consequuntur nam, asperiores ad labore, quos id praesentium mollitia aperiam enim aliquid quo perferendis inventore fuga possimus autem earum molestias error! Accusantium, maiores. Placeat pariatur facere facilis exercitationem voluptates explicabo commodi laudantium animi inventore similique veritatis quae ipsa, ducimus nam harum possimus recusandae voluptas cupiditate quis quod ad. Fugit nisi, at, quibusdam consectetur adipisci debitis alias quis obcaecati laboriosam vero commodi ea! Aspernatur minima quia impedit consequatur et, ipsam animi quibusdam sed cumque amet rerum quisquam earum, sapiente accusantium ducimus fuga eaque blanditiis error itaque.
+                    </div>
 
-    <div class="prompt">
-        Press <span class="space">Space</span> to 
-        <span class="animatedText">
-            <span class="start">Start</span>
-            <span class="jump">Jump</span>
-            <span class="restart">Restart</span>
-        </span>
+                </div> -->
+                <div class="accordionItem dino_select">
+                    <div class="accordionTitle">Character Select</div>
+                    <div class="accordionContent">
+                        <div data-dinosaur="default" class="selected">
+                            <img src="assets/dino/YellowDino.png" alt="">
+                            <div>Default Dino</div>
+                        </div>
+                        <div data-dinosaur="mecha">
+                            <img src="assets/dino/frame0000.png" alt="">
+                            <div>Mecha Godzilla</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordionItem stage_select">
+                    <div class="accordionTitle">Stage Select</div>
+                    <div class="accordionContent">
+                        <div data-stage="scorched_dunes" class="selected">
+                            <img src="UI/stage1.png" alt="">
+                            <div>Scorched Dunes</div>
+                        </div>
+                        <div data-stage="arctic_tundra">
+                            <img src="UI/stage2.png" alt="">
+                            <div>Arctic Tundra</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="accordionItem">
+                    <div class="accordionTitle">Other Settings</div>
+                    <div class="accordionContent">
+                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Maxime minus delectus tenetur quibusdam commodi hic consequuntur nam, asperiores ad labore, quos id praesentium mollitia aperiam enim aliquid quo perferendis inventore fuga possimus autem earum molestias error! Accusantium, maiores. Placeat pariatur facere facilis exercitationem voluptates explicabo commodi laudantium animi inventore similique veritatis quae ipsa, ducimus nam harum possimus recusandae voluptas cupiditate quis quod ad. Fugit nisi, at, quibusdam consectetur adipisci debitis alias quis obcaecati laboriosam vero commodi ea! Aspernatur minima quia impedit consequatur et, ipsam animi quibusdam sed cumque amet rerum quisquam earum, sapiente accusantium ducimus fuga eaque blanditiis error itaque.
+                    </div>
+                </div> -->
+            </div>
+        </div>
     </div>
 
 </body>

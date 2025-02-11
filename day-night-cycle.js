@@ -60,7 +60,7 @@ export function DNS() {
     night = `linear-gradient(to bottom, rgba(3, 3, 73,${opacity2})10%, rgba(7, 7, 92,${opacity2})30%, rgba(70, 2, 117,${opacity2}) 65%, rgba(113, 1, 145,${opacity2}) 90%)`;
     moon = `radial-gradient(circle at ${x1}px ${y1}px,white 0.7%, rgba(242, 240, 240, 0.8) 1.7%,rgba(218, 217, 217, 0.6) 1.9%,rgba(182, 180, 180, 0.4) 2.5%, transparent 3.5%)`;
     sun.style.background = `${night}, ${midday}, ${sunrise}`;
-    moonLayer.style.backgroundImage = `url("assets/background/stars.png"),${moon}`;
+    moonLayer.style.backgroundImage = `url("assets/stage/scorched_dunes/background/stars.png"),${moon}`;
     //using 'background' overrides all background properties given by css. Using 'backgroundImage' only overrides the background image and not other properties like background size: contain (we need this property for stars.png) 
     angle = (angle + 0.0005) % (2 * 3.14);
             

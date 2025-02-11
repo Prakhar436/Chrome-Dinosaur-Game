@@ -1,23 +1,32 @@
 let newHillTime;
 let hillNumber;
+let MAX_HILL_NUMBER;
+let STAGE_NAME;
 let Style;
 let screen = document.getElementById("world");
 const HILL_INTERVAL_MIN = 5000
 const HILL_INTERVAL_MAX = 9000
 const HILL_SPEED = window.innerWidth>window.innerHeight ? 0.006 : 0.018;
 
-export function setUpHill() {
+export function setUpHill(stage_name, default_hill, hill_count) {
     newHillTime = HILL_INTERVAL_MIN
-    document.querySelectorAll("[data-mount]").forEach((hill)=>{
+    STAGE_NAME = stage_name; // store the value of stage name in a global variable
+    MAX_HILL_NUMBER = hill_count; // store the value of object count in a global variable
+    document.querySelectorAll("[data-mount]").forEach((hill)=>{ // selects only dynamically created hills
         hill.remove();
     });
-    if(document.getElementById('mount')==null){
-        // console.log('reached here, creating element')
+    const defaultHill = document.getElementById('mount'); // select the default HTML hill
+    if(defaultHill && defaultHill.src !== `assets/stage/${STAGE_NAME}/background/${default_hill}`){ // if avaialble but not updated, update it
+        defaultHill.src = `assets/stage/${STAGE_NAME}/background/${default_hill}`;
+    }
+    else if(!defaultHill){ // if removed during the previous run, recreate it
         const mount =  document.createElement("img");
         mount.dataset.hill = true;
-        
-        mount.src = 'assets/background/mount4.png';
+        mount.style.height = 'initial';
+        mount.src = `assets/stage/${STAGE_NAME}/background/${default_hill}`;
         mount.classList.add('mount');
+        mount.id = 'mount';
+        screen.append(mount);
         // console.log("created element: ", mount);
     }
 }
@@ -43,22 +52,14 @@ function createHill() {
     hill.classList.add("mount");
     hill.dataset.hill = true; // used to move every hill during hillMove() operation
     hill.dataset.mount = true;//used to remove js hills but not html hill during setupHill() operation
-    hillNumber = random123();
-    hill.src = `assets/background/mount${hillNumber}.png`;
+    hillNumber = randomNumberBetween(1, MAX_HILL_NUMBER);
+    console.log('creating a hill with address:', `assets/stage/${STAGE_NAME}/background/mount_${hillNumber}.png`);
+    hill.src = `assets/stage/${STAGE_NAME}/background/mount_${hillNumber}.png`;
     hill.style.setProperty("opacity","1");
     hill.classList.add('newMount');
     screen.append(hill);
-    // console.log('creating a cactus');
-
 }
 
 function randomNumberBetween(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
-}
-function random123() {
-    const randomDecimal = Math.random();
-    // Scale the random decimal from range [0,1] to [0,3] by multiplying it by 3
-    // You can use Math.floor or Math.ceil to ensure integers if needed
-    const randomNumber = Math.floor(randomDecimal * 3) + 1;
-    return randomNumber;
 }
