@@ -2,34 +2,9 @@ import { dinoSFX } from "./audio.js";
 import { animateSpaceTxt } from "./interface.js";
 import {Sprite} from './spriteManager.js';
 import { eventBus } from "./script.js"; 
+import { DINO_MODELS } from "./config.js";
 
-
-export const DINO_MODELS = {
-    'default': {
-        src: 'assets/dino/default_dino_spritesheet.png',
-        frameHeights: [120,120,120,120],
-        frameWidth: 120,
-        padding: [20, 20],
-        animations: {
-            idle: { row: 0, frameCount: 2 },
-            running: { row: 1, frameCount: 2 },
-            jumping: { row: 2, frameCount: 1 },
-            stop: { row: 3, frameCount: 1 }
-        }
-    },
-    'mecha': {
-        src: 'assets/dino/mecha_spritesheet.png',
-        frameHeights: [350, 350, 450, 350],
-        frameWidth: 450,
-        padding: [50, 50],
-        animations: {
-            idle: { row: 0, frameCount: 2 },
-            running: { row: 1, frameCount: 9 },
-            jumping: { row: 2, frameCount: 6 },
-            stop: { row: 3, frameCount: 6 }
-        }
-    }
-}
+export 
 
 const dinoContainer  = document.getElementById('dino');
 
