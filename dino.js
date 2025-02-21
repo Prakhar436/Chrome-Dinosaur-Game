@@ -4,9 +4,7 @@ import {Sprite} from './spriteManager.js';
 import { eventBus } from "./script.js"; 
 import { DINO_MODELS } from "./config.js";
 
-export 
-
-const dinoContainer  = document.getElementById('dino');
+export const dinoContainer  = document.getElementById('dino');
 
 export class Dino extends Sprite {
     constructor(canvas, model_name = 'default') {

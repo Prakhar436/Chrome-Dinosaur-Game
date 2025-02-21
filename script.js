@@ -1,10 +1,6 @@
 import { DNS } from "./day-night-cycle.js";
-import { moveGround } from "./ground.js";
 import { Dino } from "./dino.js";
-import { setUpHurdle, hurdleMove, getHurdleRects } from "./hurdle.js";
-import { setUpGround } from "./ground.js";
-import { setUpHill, hillMove } from "./background.js";
-import { audioLoaded, bgMusic } from "./audio.js";
+import { getHurdleRects } from "./hurdle.js";
 import { switchText, animateSpaceTxt, toggleAccordion, updateAccordionAccess } from "./interface.js";
 import { EventEmitter } from "./eventEmitter.js";
 import { Stage } from "./stageSelector.js";
@@ -25,7 +21,6 @@ let stage;
 const hiScoreElem = document.querySelector("[data-hiscore]");
 const GAME_STATES = ["Ready", "Running", "Over"];
 
-
 export const eventBus = new EventEmitter();
 
 eventBus.on('dinoModelChange', (model_name) =>{
@@ -41,6 +36,14 @@ eventBus.on('stageChange', (stage_name) =>{
     cancelAnimationFrame(idleAnimationId); // stop the 'Over' state animations (since it does not include dino idle animations)
     runIdleAnimations('idle'); // play ready state animations
 });
+
+eventBus.on('loadingStarted', (stage_name) => {
+    document.querySelector(".game-window-loader").classList.add("active");
+});
+eventBus.on('loadingFinished', () => {
+    document.querySelector(".game-window-loader").classList.remove("active");
+}); 
+
 //-------------Interface event listeners -------------
 document.querySelector(".accordion").addEventListener("click", toggleAccordion);
 
@@ -50,34 +53,29 @@ document.querySelector(".accordion").addEventListener("click", toggleAccordion);
 //---------------preloader---------------
 
 // use the promise from audio.js to check if audio is loaded, before adding the event listener
-//also load hurdle images
-function preloadImage(url) {
-    return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => resolve(url);
-        img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
-        img.src = url;
-    });
-}
-const imageUrls = [
-    'assets/dino/YellowDino.png',
-    'assets/dino/YellowDinoRun-1.png',
-    'assets/dino/YellowDinoRun-0.png',
-    'assets/stage/scorched_dunes/hurdles/hurdle_1.png',
-    'assets/stage/scorched_dunes/hurdles/hurdle_2.png',
-    'assets/stage/scorched_dunes/background/mount_1.png',
-    'assets/stage/scorched_dunes/background/mount_2.png',
-    'assets/stage/scorched_dunes/background/mount_3.png'
-];
+// also load hurdle images
+// function preloadImage(url) {
+//     return new Promise((resolve, reject) => {
+//         const img = new Image();
+//         img.onload = () => resolve(url);
+//         img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+//         img.src = url;
+//     });
+// }
+// const imageUrls = [
+//     'assets/stage/scorched_dunes/hurdles/hurdle_1.png',
+//     'assets/stage/scorched_dunes/hurdles/hurdle_2.png',
+//     'assets/stage/scorched_dunes/background/mount_1.png',
+//     'assets/stage/scorched_dunes/background/mount_2.png',
+//     'assets/stage/scorched_dunes/background/mount_3.png'
+// ];
 
-const preloadPromises = imageUrls.map(preloadImage);
-preloadPromises.push(audioLoaded);
-Promise.all(preloadPromises).then(() => { 
-    document.querySelector('.loaderBody').style.display = "none";
-document.addEventListener('keydown',isSpacePressed);
-}).catch((err) => {
-    console.error(err);
-});
+// const preloadPromises = imageUrls.map(preloadImage);
+// Promise.all(preloadPromises).then(() => { 
+//     document.querySelector('.loaderBody').style.display = "none";
+// }).catch((err) => {
+//     console.error(err);
+// });
 
 // --------------------preloader END--------------------
 
@@ -93,12 +91,13 @@ let runIdleAnimations = (animation) => {
 
 
 
-window.onload = function () {
+window.addEventListener('load', ()=> {
+    document.querySelector('.loaderBody').style.display = "none";
+    document.addEventListener('keydown',isSpacePressed);
     canvas = document.querySelector('canvas'); // get canvas element and put it in the global variable
     setUpGame(); // ready up the game
     runIdleAnimations('idle'); // play idle animations in ready (idle) state
-
-}
+});
 
 function setUpGame(){
     if(startScreenElem){ // remove the "restart" msg div, if present
@@ -113,13 +112,11 @@ function setUpGame(){
     }
     speedScale = 1;
     hiScoreFlag = false;
-    setUpGround();
     dinosaur.setUpDino();
-    // setUpHurdle();
-    // setUpHill();
     stage.setUpStage();
     setUpScore();
     gameState = GAME_STATES[0]; // Ready state
+    eventBus.emit('gameStateChange', gameState);
 }
 
 let isSpacePressed = (event) => {
@@ -135,15 +132,15 @@ function gameStart() {
     if(gameState != "Ready"){
         setUpGame();
     }
-    if(bgMusic.playing() == false) { // start the background music
-        bgMusic.play();
-        bgMusic.fade(0, 0.5, 2000);
-    }
+    // if(bgMusic.playing() == false) { // start the background music
+    //     bgMusic.play();
+    //     bgMusic.fade(0, 0.5, 2000);
+    // }
     gameState = GAME_STATES[1]; // Running state
+    eventBus.emit('gameStateChange', gameState);
     updateAccordionAccess(false); // disable access to accordion
     window.requestAnimationFrame(update);
 }
-
 let lastTime;
 let updateId; // id of the requestAnimationFrame, needed to cancel the animation
 function update(time) {
@@ -154,9 +151,7 @@ function update(time) {
     }
     const delta = time - lastTime;
     switchText(1);
-    moveGround(delta, speedScale);
     dinosaur.dinoRun(delta, speedScale);
-    hurdleMove(delta, speedScale);
     stage.moveStage(delta, speedScale);
     // hillMove(delta, speedScale);
     updateScore(delta);
@@ -238,6 +233,7 @@ function gameStop() {
 
     }, 100);
     gameState = GAME_STATES[2]; // Over state
+    eventBus.emit('gameStateChange', gameState);
 }
 
 function speedUp(delta) {

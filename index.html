@@ -12,12 +12,17 @@
 </head>
 
 <body>
-    <div class="loaderBody">
+    <div class="loaderBody"> <!-- Page Loader -->
         <div class="loader"></div>
         <div class="text">Loading Game Resources. Please Wait</div>
     </div>
 
     <div class="container" id="world">
+
+        <div class="game-window-loader">        
+            <div class="loader-icon"></div> 
+        </div>
+
         <div class="moon-stars" id="moonLayer"></div>
         <div class="score">
             <div data-hiscore>Hi: 0</div>
@@ -29,9 +34,10 @@
         </div>
         <img src="assets/stage/scorched_dunes/ground/ground.png" alt="" class="ground" id="ground1">
         <img src="assets/stage/scorched_dunes/ground/ground.png" alt="" class="ground" id="ground2">
-        <img src="assets/stage/scorched_dunes/background/mount_1.png" data-hill="true" style="height: initial;"
-            class="mount" id="mount" alt="">
+        <img src="assets/stage/scorched_dunes/background/mount_1.png" data-movable="true" style="height: initial;"
+            class="mount" id="default_mount" alt="">
     </div>
+
     <div class="interface">
         <div class="prompt">
             Press <span class="space">Space</span> to
