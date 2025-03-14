@@ -26,7 +26,7 @@ export function setUpHurdle(stage_name, hurdle_count, hurdle_sizes, hitboxes) {
     document.querySelectorAll("[data-hurdle]").forEach((hurdle) => {
         hurdle.remove();
     })
-    populateHurdlePool(); // fill the pool with assets
+    return populateHurdlePool(); // fill the pool with assets
 }
 
 export function hurdleMove(delta, speedScale) {

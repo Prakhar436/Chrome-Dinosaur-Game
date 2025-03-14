@@ -1,4 +1,4 @@
-import { eventBus } from "./script.js";
+import { eventBus } from "./eventEmitter.js";
 
 let start = document.querySelector(".start");
 let jump = document.querySelector(".jump");
@@ -23,6 +23,34 @@ document.querySelector('.stage_select').addEventListener('click', (e) => {
     eventBus.emit('stageChange', stageOption.dataset.stage);
     stageOption.classList.add('selected');
 });
+
+document.querySelector('form .item.dnc-type').addEventListener('click', (e) => {
+    document.querySelector('.radio-grp').classList.toggle('disabled');
+    document.querySelectorAll('.radio-grp input').forEach((r)=>{
+        r.checked = false;
+    });
+    if(!e.target.checked){
+        document.getElementById('a').checked = true;
+    }
+    console.log('emitting dnc change event');
+    eventBus.emit('DNCModeChange',e.target.checked);
+});
+document.querySelector('form .item.radio-grp').addEventListener('change', (e) => {
+    console.log('emitting staticTime change event');
+    eventBus.emit('DNCTimeChange', e.target.value);
+});   
+
+eventBus.on('DNCUpdateStarted', () => {
+    document.querySelectorAll('.item.radio-grp, .item.dnc-type').forEach ((elem) =>{
+        elem.classList.add('disabled');
+    });
+}
+);
+eventBus.on('DNCUpdateFinished', () => {
+    document.querySelectorAll('.item.radio-grp, .item.dnc-type').forEach ((elem) =>{
+        elem.classList.remove('disabled');
+    });}
+);
 
 export function switchText(id) { // switch .prompt text between 'start', 'jump', and 'restart'
     if (id == 1) {

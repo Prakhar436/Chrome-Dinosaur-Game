@@ -1,8 +1,7 @@
-import { DNS } from "./day-night-cycle.js";
 import { Dino } from "./dino.js";
 import { getHurdleRects } from "./hurdle.js";
 import { switchText, animateSpaceTxt, toggleAccordion, updateAccordionAccess } from "./interface.js";
-import { EventEmitter } from "./eventEmitter.js";
+import { eventBus } from "./eventEmitter.js";
 import { Stage } from "./stageSelector.js";
 
 // let spaceButton3d = document.querySelector(".space");
@@ -21,8 +20,6 @@ let stage;
 const hiScoreElem = document.querySelector("[data-hiscore]");
 const GAME_STATES = ["Ready", "Running", "Over"];
 
-export const eventBus = new EventEmitter();
-
 eventBus.on('dinoModelChange', (model_name) =>{
     //assign the dinosaur variable to a new Dino object
     dinosaur = new Dino(canvas, model_name);
@@ -36,8 +33,7 @@ eventBus.on('stageChange', (stage_name) =>{
     cancelAnimationFrame(idleAnimationId); // stop the 'Over' state animations (since it does not include dino idle animations)
     runIdleAnimations('idle'); // play ready state animations
 });
-
-eventBus.on('loadingStarted', (stage_name) => {
+eventBus.on('loadingStarted', () => {
     document.querySelector(".game-window-loader").classList.add("active");
 });
 eventBus.on('loadingFinished', () => {
@@ -50,46 +46,14 @@ document.querySelector(".accordion").addEventListener("click", toggleAccordion);
 //-------------Interface event listeners END-------------
 
 
-//---------------preloader---------------
-
-// use the promise from audio.js to check if audio is loaded, before adding the event listener
-// also load hurdle images
-// function preloadImage(url) {
-//     return new Promise((resolve, reject) => {
-//         const img = new Image();
-//         img.onload = () => resolve(url);
-//         img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
-//         img.src = url;
-//     });
-// }
-// const imageUrls = [
-//     'assets/stage/scorched_dunes/hurdles/hurdle_1.png',
-//     'assets/stage/scorched_dunes/hurdles/hurdle_2.png',
-//     'assets/stage/scorched_dunes/background/mount_1.png',
-//     'assets/stage/scorched_dunes/background/mount_2.png',
-//     'assets/stage/scorched_dunes/background/mount_3.png'
-// ];
-
-// const preloadPromises = imageUrls.map(preloadImage);
-// Promise.all(preloadPromises).then(() => { 
-//     document.querySelector('.loaderBody').style.display = "none";
-// }).catch((err) => {
-//     console.error(err);
-// });
-
-// --------------------preloader END--------------------
-
-
 //--------------Idle Animations----------------
 let idleAnimationId; // to store the requestAnimationFrame id for idle animations (this is needed to stop the idle animations when game starts)
 let runIdleAnimations = (animation) => {
     dinosaur.standby(animation);
-    DNS();
+    stage.standby();
     idleAnimationId = requestAnimationFrame(() => runIdleAnimations(animation));
 }
 //--------------Idle Animations END----------------
-
-
 
 window.addEventListener('load', ()=> {
     document.querySelector('.loaderBody').style.display = "none";
@@ -156,7 +120,6 @@ function update(time) {
     // hillMove(delta, speedScale);
     updateScore(delta);
     speedUp(delta);
-    DNS();
     if (CollisionCheck())
         return gameStop(); // return statement ensures that requestAnimationFrame returns and is not called again
     lastTime = time;
@@ -164,7 +127,7 @@ function update(time) {
 
 }
 
-function CollisionCheck() {
+function CollisionCheck(){
     let collision = false; 
     const dinoRect = dinosaur.getDinoRect();
     const hurdleRect = getHurdleRects();

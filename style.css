@@ -579,6 +579,24 @@ img {
     cursor: pointer;
  }
 
+ form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+ }
+
+ form .item{
+    display: flex;
+    filter: grayscale(0);
+    gap: 20px;
+ }
+ 
+ .accordionItem .radio-grp.item.disabled label, .accordionItem .radio-grp.item.disabled input, .accordionItem .item.dnc-type.disabled input{
+    pointer-events: none;
+    filter: grayscale(1);
+ }
+
+
 /* ----------------------------------Media Queries:----------------------------------------- */
 
 @media screen and (orientation: portrait) {

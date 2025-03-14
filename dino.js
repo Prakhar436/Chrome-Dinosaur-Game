@@ -1,7 +1,7 @@
 import { dinoSFX } from "./audio.js";
 import { animateSpaceTxt } from "./interface.js";
 import {Sprite} from './spriteManager.js';
-import { eventBus } from "./script.js"; 
+import { eventBus } from "./eventEmitter.js";
 import { DINO_MODELS } from "./config.js";
 
 export const dinoContainer  = document.getElementById('dino');

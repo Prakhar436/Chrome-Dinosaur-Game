@@ -1,4 +1,4 @@
-export class EventEmitter {
+class EventEmitter {
     constructor() {
         this.events = {};
     }
@@ -25,3 +25,6 @@ export class EventEmitter {
         }
     }
 }
+
+export const eventBus = new EventEmitter();
+//eventBus initialied and exported from here (instead of script.js) to avoid circular dependencies (initialization issues)

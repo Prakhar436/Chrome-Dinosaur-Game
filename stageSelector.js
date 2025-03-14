@@ -1,8 +1,9 @@
 import {setUpHill, hillMove} from './background.js';
+import { DNC, setUpDNC } from "./day-night-cycle.js";
 import { setUpGround, moveGround } from './ground.js';
 import { setUpHurdle, hurdleMove } from './hurdle.js';
 import { STAGES } from './config.js';
-import { eventBus } from './script.js';
+import { eventBus } from "./eventEmitter.js";
 import { setUpAudio } from './audio.js';
 
 export class Stage{
@@ -13,11 +14,12 @@ export class Stage{
         this.hurdle_count = STAGES[stage_name].hurdle_count; //number of objects (hurdles) defined for the stage
         this.hitboxes = STAGES[stage_name].hitboxes; // hitboxes' size and placement data for each hurdle
         this.hurdle_sizes = STAGES[stage_name].hurdle_sizes; // sizes of each hurdle
-    
+        this.updateFactors = STAGES[stage_name].DNC.updateFactors;
     }
     setUpStage(){
-        eventBus.emit('loadingStarted', this.stage_name);
+        eventBus.emit('loadingStarted');
         Promise.all([
+        setUpDNC(this.stage_name, this.updateFactors), 
         setUpHill(this.stage_name, this.default_hill, this.hill_count),
         setUpGround(this.stage_name),
         setUpHurdle(this.stage_name, this.hurdle_count, this.hurdle_sizes, this.hitboxes),
@@ -30,5 +32,9 @@ export class Stage{
         hillMove(delta, speedScale);
         hurdleMove(delta, speedScale);
         moveGround(delta, speedScale);
+        DNC();
+    }
+    standby(){ // called when the game hasn't started or is over (DNC needs to be running continuously)
+        DNC();
     }
 }

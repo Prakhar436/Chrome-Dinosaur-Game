@@ -1,4 +1,4 @@
-import { eventBus } from "./script.js";
+import { eventBus } from "./eventEmitter.js";
 let eventsRegistered = false;
 let bgMusic;
 let current_stage;

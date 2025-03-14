@@ -41,6 +41,12 @@ export const STAGES = {
             // hurdle_num: [hitbox1, hitbox2, hitbox3,...] where each hitbox = [top %, left %, width %, height %], each % relative to hurdleContainer
             hurdle_1: [[59, 30, 38, 15], [7, 44, 15, 35]],
             hurdle_2: [[49, 23, 20, 15], [7, 46, 21, 35], [33, 76, 10, 15]]
+        },
+        DNC:{
+            updateFactors: {
+                noon: 0.0004,
+                night: 0.0006
+            }
         }
 
     },
@@ -59,6 +65,12 @@ export const STAGES = {
             hurdle_1: [[2, 32, 18, 15], [7, 81, 4, 3],[22, 0, 5, 5]],
             hurdle_2: [[-8, 14, 22, 15], [21, 1, 50, 13]],
             hurdle_3: [[2, 48, 5, 15], [28, 4, 85, 13]]
+        },
+        DNC:{
+            updateFactors: {
+                noon: 0.0006,
+                night: 0.0004
+            }
         }
     }
 }
