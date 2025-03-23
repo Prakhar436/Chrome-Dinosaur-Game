@@ -46,6 +46,39 @@ export const STAGES = {
             updateFactors: {
                 noon: 0.0004,
                 night: 0.0006
+            },
+
+            color_stops: {
+                midday:  [ //rgb values and percentage for gradient
+                    { color: [255,255,255], pct: 0 },
+                    { color: [228,239,247], pct: 3 },
+                    { color: [225,240,250], pct: 5 },
+                    { color: [135,206,235], pct: 100 }
+                ],
+                sunrise: [
+                    { color: [242,248,247], pct: 0 },
+                    { color: [249,249,28], pct: 3 },
+                    { color: [247,214,46], pct: 8 },
+                    { color: [248,200,95], pct: 12 },
+                    { color: [201,165,132], pct: 30 },
+                    { color: [115,130,133], pct: 51 },
+                    { color: [46,97,122], pct: 85 },
+                    { color: [24,75,106], pct: 100 }
+                ],
+                night: [
+                    { color: [3,3,73], pct: 10 },
+                    { color: [7,7,92], pct: 30 },
+                    { color: [70,2,117], pct: 65 },
+                    { color: [113,1,145], pct: 90 }
+                ],
+                moon: [
+                    { color: 'white', pct: 0.7 },
+                    { color: [242,240,240,0.8], pct: 1.7 },
+                    { color: [218,217,217,0.6], pct: 1.9 },
+                    { color: [182,180,180,0.4], pct: 2.5 },
+                    { color: [/*empty = transparent*/], pct: 3.5 },
+                ]
+
             }
         }
 

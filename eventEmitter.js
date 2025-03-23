@@ -10,6 +10,13 @@ class EventEmitter {
         }
         this.events[event].push(listener);
     }
+    once(event, listener) {
+        const onceWrapper = (...args) => {
+            this.off(event, onceWrapper);  //  Remove listener after first execution
+            listener(...args);  //  Call original listener
+        };
+        this.on(event, onceWrapper);
+    }
 
     // Remove a listener for a specific event
     off(event, listener) {

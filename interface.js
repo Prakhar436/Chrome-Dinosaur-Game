@@ -24,17 +24,33 @@ document.querySelector('.stage_select').addEventListener('click', (e) => {
     stageOption.classList.add('selected');
 });
 
-document.querySelector('form .item.dnc-type').addEventListener('click', (e) => {
-    document.querySelector('.radio-grp').classList.toggle('disabled');
-    document.querySelectorAll('.radio-grp input').forEach((r)=>{
-        r.checked = false;
-    });
-    if(!e.target.checked){
-        document.getElementById('a').checked = true;
+document.querySelector('form .dnc-type').addEventListener('change', (e) => {
+    if(e.target.value==1){
+        document.querySelector('.radio-grp').classList.remove('disabled');
+        document.querySelectorAll('.radio-grp input').forEach((r)=>{
+            r.checked = false;
+        });
+        if(!e.target.checked){
+            document.getElementById('a').checked = true;
+        }
     }
-    console.log('emitting dnc change event');
-    eventBus.emit('DNCModeChange',e.target.checked);
-});
+    else
+        document.querySelector('.radio-grp').classList.add('disabled');
+    
+    eventBus.emit('DNCModeChange',e.target.value);
+    });
+
+// document.querySelector('form .item.dnc-type').addEventListener('click', (e) => {
+//     document.querySelector('.radio-grp').classList.toggle('disabled');
+//     document.querySelectorAll('.radio-grp input').forEach((r)=>{
+//         r.checked = false;
+//     });
+//     if(!e.target.checked){
+//         document.getElementById('a').checked = true;
+//     }
+//     console.log('emitting dnc change event');
+//     eventBus.emit('DNCModeChange',e.target.checked);
+// });
 document.querySelector('form .item.radio-grp').addEventListener('change', (e) => {
     console.log('emitting staticTime change event');
     eventBus.emit('DNCTimeChange', e.target.value);
