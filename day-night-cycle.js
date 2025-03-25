@@ -30,15 +30,26 @@ let angle = Math.PI + 1.5;
 let opacity = 1; // opacity for sunrise background
 let opacity2 = 0; //opacity for night background
 let lastPhase, currentPhase;
-let updateFactorsData; 
+let updateFactors;
+let colorStops; 
 let switchTimeout;
 eventBus.on('DNCModeChange', toggleAnimation);
 eventBus.on('DNCTimeChange', setStaticTime);
 eventBus.on('DNCPhaseChange', (phase) => setUpdateFactor(phase));
 
-export function setUpDNC(stage_name, updateFactors){
-    if(updateFactors != updateFactorsData){ // assign only if changed
-        updateFactorsData = updateFactors;
+export function setUpDNC(stage_name, stage_update_factors, stage_color_stops){
+    if(stage_update_factors != updateFactors){ // assign only if changed
+        updateFactors = stage_update_factors;
+    }
+    if (stage_color_stops != colorStops) {
+        colorStops = stage_color_stops;
+        // call DNC once to ensure the new color stops get applied
+        let temp = updateFactor;
+        updateFactor = 0; // make sure the sun does not move while applying new color stops
+        DNC_Settings.is_transitioning = true;
+        DNC();
+        DNC_Settings.is_transitioning = false;
+        updateFactor = temp;
     }
     return Promise.resolve(); // return resolved Promise (nothing to load)
 }
@@ -80,15 +91,36 @@ export function DNC() {
         elemBrightness.style.setProperty('--brightnessVal', 0.5 + (angle - 5 * Math.PI / 6) * 0.25);// initial brightness is 0.5, map [5pi/6, 4.6180] of angle to [0.5, 1] of brightnessVal
     }
 
-    midday = `radial-gradient(circle at ${x}px ${y}px, white 0%,rgb(228, 239, 247,${opacity}) 3%, rgb(225, 240, 250,${opacity}) 5%, rgba(135, 206, 235, ${opacity}))`
-    sunrise = `radial-gradient(circle at ${x}px ${y}px, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)`;
-    night = `linear-gradient(to bottom, rgba(3, 3, 73,${opacity2})10%, rgba(7, 7, 92,${opacity2})30%, rgba(70, 2, 117,${opacity2}) 65%, rgba(113, 1, 145,${opacity2}) 90%)`;
-    moon = `radial-gradient(circle at ${x1}px ${y1}px,white 0.7%, rgba(242, 240, 240, 0.8) 1.7%,rgba(218, 217, 217, 0.6) 1.9%,rgba(182, 180, 180, 0.4) 2.5%, transparent 3.5%)`;
+    // midday = `radial-gradient(circle at ${x}px ${y}px, white 0%,rgb(228, 239, 247,${opacity}) 3%, rgb(225, 240, 250,${opacity}) 5%, rgba(135, 206, 235, ${opacity}))`
+    // sunrise = `radial-gradient(circle at ${x}px ${y}px, rgba(242,248,247,1) 0%,rgba(249,249,28,1) 3%,rgba(247,214,46,1) 8%, rgba(248,200,95,1) 12%,rgba(201,165,132,1) 30%,rgba(115,130,133,1) 51%,rgba(46,97,122,1) 85%,rgba(24,75,106,1) 100%)`;
+    // night = `linear-gradient(to bottom, rgba(3, 3, 73,${opacity2})10%, rgba(7, 7, 92,${opacity2})30%, rgba(70, 2, 117,${opacity2}) 65%, rgba(113, 1, 145,${opacity2}) 90%)`;
+    // moon = `radial-gradient(circle at ${x1}px ${y1}px,white 0.7%, rgba(242, 240, 240, 0.8) 1.7%,rgba(218, 217, 217, 0.6) 1.9%,rgba(182, 180, 180, 0.4) 2.5%, transparent 3.5%)`;
+    midday = getGradientString('midday', x, y, opacity); // getGradientString generates the gradient string similar to above comments
+    sunrise = getGradientString('sunrise', x, y);
+    night = getGradientString('night', x, y, opacity2);
+    moon = getGradientString('moon', x1, y1);
     sun.style.background = `${night}, ${midday}, ${sunrise}`;
     moonLayer.style.backgroundImage = `url("assets/stage/scorched_dunes/background/stars.png"),${moon}`;
     //using 'background' overrides all background properties given by css. Using 'backgroundImage' only overrides the background image and not other properties like background size: contain (we need this property for stars.png) 
     angle = (angle + updateFactor) % (2 * 3.14);
-    trackDNCPhase(); //tracks changes in daytime and emits events accordingly    
+    trackDNCPhase(); //tracks changes in daytime and emits events accordingly
+}
+
+function getGradientString(layer, x, y, opacity) {
+    let color_stop_values =  colorStops[layer];
+    let gradientStops = color_stop_values.map(({ color, pct }) => {
+        if (typeof color === "string") return `${color} ${pct}%`;  // named colors like "white"
+        else if (Array.isArray(color) && color.length === 0) return `transparent ${pct}%`;  // transparent color
+        else if (color.length === 3) return `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${opacity}) ${pct}%`;  //rgb
+        else if (color.length === 4) return `rgba(${color.join(",")}) ${pct}%`;  //rgba
+    })
+    .join(", ");
+    let gradient;
+    if(layer==='night')
+        gradient = `linear-gradient(to bottom, ${gradientStops})`;
+    else
+        gradient = `radial-gradient(circle at ${x}px ${y}px, ${gradientStops})`;
+    return gradient;
 }
 
 function trackDNCPhase(){
@@ -113,7 +145,7 @@ function trackDNCPhase(){
 
 function setUpdateFactor(phase){
     if(DNC_Settings.is_animated)
-        updateFactor = updateFactorsData[phase] || 0.0005;
+        updateFactor = updateFactors[phase] || 0.0005;
 } 
 
 function toggleAnimation(type){
@@ -121,7 +153,7 @@ function toggleAnimation(type){
     DNC_Settings.type = type;
     if(type==='0'){ // complete DNC (default)
         DNC_Settings.is_animated = true;
-        updateFactor = updateFactorsData[currentPhase] || 0.0005;
+        updateFactor = updateFactors[currentPhase] || 0.0005;
     }
     else if(type==='1'){
         DNC_Settings.is_animated = false;
@@ -180,7 +212,7 @@ function scheduleInstantSwitch(){
     }
     updateFactor = 0.0600;
     let targetPhase = currentPhase == 'noon' ? 'night' : 'noon'; // if current phase is noon, target phase is night and vice versa
-    let ratio = 0.0005 / (updateFactorsData[currentPhase] || 0.0005); // ratio of default update factor to the current phase's update factor
+    let ratio = 0.0005 / (updateFactors[currentPhase] || 0.0005); // ratio of default update factor to the current phase's update factor
     const BASE_INTERVAL = 60000; // 1 minute
     let min_interval = BASE_INTERVAL * ratio;
     let max_interval = BASE_INTERVAL * ratio * 1.5;

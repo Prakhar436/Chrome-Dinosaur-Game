@@ -6,6 +6,9 @@
     margin: 0;
 
 }
+body{
+    background-image: url(UI/background.jpg);
+}
 
 /* ----------------------------------Page Loader:----------------------------------------- */
 /* HTML: <div class="loader"></div> */
@@ -589,6 +592,12 @@ img {
     display: flex;
     filter: grayscale(0);
     gap: 20px;
+ }
+
+ .accordionItem .radio-grp.item.restricted label, .accordionItem .radio-grp.item.restricted input, .accordionItem .item.dnc-type.restricted input{
+    pointer-events: none;
+    filter: grayscale(1);
+    /*.restricted and .disabled do the same thing, but .restricted is used for temporarily disabling radio-buttons while loading, without using .disabled class in order to avoid messing up disabled settings*/
  }
  
  .accordionItem .radio-grp.item.disabled label, .accordionItem .radio-grp.item.disabled input, .accordionItem .item.dnc-type.disabled input{

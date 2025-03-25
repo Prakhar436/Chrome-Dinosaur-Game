@@ -30,13 +30,15 @@ document.querySelector('form .dnc-type').addEventListener('change', (e) => {
         document.querySelectorAll('.radio-grp input').forEach((r)=>{
             r.checked = false;
         });
+        document.getElementById('a').checked = true; // check the noon button
         if(!e.target.checked){
             document.getElementById('a').checked = true;
         }
     }
-    else
+    else{
         document.querySelector('.radio-grp').classList.add('disabled');
-    
+        console.log('radio grp disabled')
+    }
     eventBus.emit('DNCModeChange',e.target.value);
     });
 
@@ -52,19 +54,18 @@ document.querySelector('form .dnc-type').addEventListener('change', (e) => {
 //     eventBus.emit('DNCModeChange',e.target.checked);
 // });
 document.querySelector('form .item.radio-grp').addEventListener('change', (e) => {
-    console.log('emitting staticTime change event');
     eventBus.emit('DNCTimeChange', e.target.value);
 });   
 
 eventBus.on('DNCUpdateStarted', () => {
     document.querySelectorAll('.item.radio-grp, .item.dnc-type').forEach ((elem) =>{
-        elem.classList.add('disabled');
+        elem.classList.add('restricted'); // temporarily disable the radio buttons while loading 
     });
 }
 );
 eventBus.on('DNCUpdateFinished', () => {
     document.querySelectorAll('.item.radio-grp, .item.dnc-type').forEach ((elem) =>{
-        elem.classList.remove('disabled');
+        elem.classList.remove('restricted');
     });}
 );
 

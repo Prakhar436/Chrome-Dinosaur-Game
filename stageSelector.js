@@ -14,12 +14,13 @@ export class Stage{
         this.hurdle_count = STAGES[stage_name].hurdle_count; //number of objects (hurdles) defined for the stage
         this.hitboxes = STAGES[stage_name].hitboxes; // hitboxes' size and placement data for each hurdle
         this.hurdle_sizes = STAGES[stage_name].hurdle_sizes; // sizes of each hurdle
-        this.updateFactors = STAGES[stage_name].DNC.updateFactors;
+        this.update_factors = STAGES[stage_name].DNC.updateFactors;
+        this.color_stops = STAGES[stage_name].DNC.color_stops;
     }
     setUpStage(){
         eventBus.emit('loadingStarted');
         Promise.all([
-        setUpDNC(this.stage_name, this.updateFactors), 
+        setUpDNC(this.stage_name, this.update_factors, this.color_stops), 
         setUpHill(this.stage_name, this.default_hill, this.hill_count),
         setUpGround(this.stage_name),
         setUpHurdle(this.stage_name, this.hurdle_count, this.hurdle_sizes, this.hitboxes),
